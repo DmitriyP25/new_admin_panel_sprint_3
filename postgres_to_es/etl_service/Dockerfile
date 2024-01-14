@@ -6,10 +6,6 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 COPY requirements.txt requirements.txt
-COPY .env .env
-COPY ./entrypoint.sh .entrypoint.sh 
-COPY ./state.json .state.json
-COPY ./movies.json .movies.json
 
 ADD entrypoint.sh movies.json /
 
@@ -20,6 +16,10 @@ RUN apk add --update netcat-openbsd \
 
 RUN  pip install --upgrade pip \
      && pip install -r requirements.txt
+
+COPY ./entrypoint.sh .entrypoint.sh 
+COPY ./state.json .state.json
+COPY ./movies.json .movies.json
 
 COPY . .
 

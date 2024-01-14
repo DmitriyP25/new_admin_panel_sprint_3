@@ -1,9 +1,21 @@
-import os
 import backoff
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from dotenv import load_dotenv
 
-load_dotenv()
+class Settings(BaseSettings):
+    DB_NAME: str
+    DB_USER: str
+    DB_PASSWORD: str
+    DB_HOST: str
+    DB_PORT: str
+    DB_OPTIONS: str
+    ELASTIC_HOST: str
+    ELASTIC_PORT: str
+
+    model_config = SettingsConfigDict(env_file='.env', env_file_encoding='utf-8')
+
+
+settings = Settings()
 
 BACKOFF_CFG = {
     "wait_gen": backoff.expo,
@@ -12,15 +24,15 @@ BACKOFF_CFG = {
 }
 
 POSTGRES_DSN = {
-    'dbname': os.environ.get('DB_NAME'),
-    'user': os.environ.get('DB_USER'),
-    'password': os.environ.get('DB_PASSWORD'),
-    'host': os.environ.get('DB_HOST'),
-    'port': os.environ.get('DB_PORT'),
-    'options': os.environ.get('DB_OPTIONS'),
+    'dbname': settings.DB_NAME,
+    'user': settings.DB_USER,
+    'password': settings.DB_PASSWORD,
+    'host': settings.DB_HOST,
+    'port': settings.DB_PORT,
+    'options': settings.DB_OPTIONS,
 }
 
-ELASTIC_PATH = f"http://{os.environ.get('ELASTIC_HOST')}:{os.environ.get('ELASTIC_PORT')}"
+ELASTIC_PATH = f"http://{settings.ELASTIC_HOST}:{settings.ELASTIC_PORT}"
 
 FILE = "./state.json"
 
