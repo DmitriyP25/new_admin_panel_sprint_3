@@ -7,7 +7,7 @@ ENV PYTHONUNBUFFERED 1
 
 COPY requirements.txt requirements.txt
 
-ADD entrypoint.sh movies.json /
+ADD entrypoint.sh genres.json movies.json /
 
 RUN chmod +x '/entrypoint.sh'
 
@@ -15,11 +15,9 @@ RUN apk add --update netcat-openbsd \
      && apk --no-cache add curl
 
 RUN  pip install --upgrade pip \
-     && pip install -r requirements.txt
+     && pip install -r requirements.txt --no-cache-dir
 
-COPY ./entrypoint.sh .entrypoint.sh 
-COPY ./state.json .state.json
-COPY ./movies.json .movies.json
+COPY ./entrypoint.sh .entrypoint.sh
 
 COPY . .
 

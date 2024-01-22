@@ -11,6 +11,8 @@ class Settings(BaseSettings):
     DB_OPTIONS: str
     ELASTIC_HOST: str
     ELASTIC_PORT: str
+    REDIS_HOST: str
+    REDIS_PORT: str
 
     model_config = SettingsConfigDict(env_file='.env', env_file_encoding='utf-8')
 
@@ -32,11 +34,16 @@ POSTGRES_DSN = {
     'options': settings.DB_OPTIONS,
 }
 
+REDIS_DSN = {
+    'host': settings.REDIS_HOST,
+    'port': settings.REDIS_PORT,
+}
+
 ELASTIC_PATH = f"http://{settings.ELASTIC_HOST}:{settings.ELASTIC_PORT}"
 
 FILE = "./state.json"
 
-INDEX = 'movies'
+INDEXES = ['genres', 'movies']
 
 ITERSIZE = 200
 
